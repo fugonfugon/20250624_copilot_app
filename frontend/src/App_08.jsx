@@ -17,10 +17,6 @@ function App() {
 
   const [notebookContent, setNotebookContent] = useState([]);
 
-  
-
-
-
   //const handleFileChange = (event) => {
     //setFile(event.target.files[0]);いいかんじ。
   //};
@@ -116,28 +112,12 @@ const runCell = async (code, index) => {
       body: JSON.stringify({ code }),
     });
     const data = await response.json();
-
-    const stdout = data.stdout?.trim();
-    const stderr = data.stderr?.trim();
-
-
-      // 出力結果を格納する変数を準備
-    let meaningfulOutput = "（出力なし）";
-
-    // もしstdoutが存在していて "None" でなければ、それを使う
-    if (stdout && stdout !== "None") {
-        meaningfulOutput = stdout;
-    }
-    // それ以外でstderrが存在すれば、それを使う
-    else if (stderr) {
-        meaningfulOutput = stderr;
-    }
-
     setOutputLog((prev) => ({
-        ...prev,
-        [index]: meaningfulOutput,
+      ...prev,
+      [index]: data.stdout || data.stderr || "（出力なし）"
     }));
-    };
+  };
+
 
 
 const sendChat = async () => {

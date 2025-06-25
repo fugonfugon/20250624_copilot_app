@@ -121,15 +121,12 @@ async def run_code(data: dict):
         try:
             tree = ast.parse(code)
             if len(tree.body) == 1 and isinstance(tree.body[0], ast.Expr):
-        
-                val = eval(compile(tree, filename="<string>", mode="eval"))
-                if val is not None:
-                    code = f"print({code})"
+                code = f"print({code})"
         except:
             pass
 
         result = subprocess.run(
-            ["python", "-c", code],
+            ["python3", "-c", code],
             capture_output=True,
             text=True,
             timeout=5
